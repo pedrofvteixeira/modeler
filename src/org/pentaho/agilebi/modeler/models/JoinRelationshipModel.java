@@ -20,6 +20,7 @@ package org.pentaho.agilebi.modeler.models;
 import java.io.Serializable;
 
 import org.pentaho.agilebi.modeler.ModelerMessagesHolder;
+import org.pentaho.metadata.model.concept.types.RelationshipType;
 import org.pentaho.ui.xul.XulEventSourceAdapter;
 import org.pentaho.ui.xul.stereotype.Bindable;
 
@@ -27,6 +28,7 @@ public class JoinRelationshipModel extends XulEventSourceAdapter implements Seri
   private static final long serialVersionUID = -1365363591444333452L;
   private JoinFieldModel leftKeyFieldModel;
   private JoinFieldModel rightKeyFieldModel;
+  private JoinFieldModel joinTypeFieldModel;
 
   public JoinRelationshipModel() {
 
@@ -52,23 +54,39 @@ public class JoinRelationshipModel extends XulEventSourceAdapter implements Seri
     this.rightKeyFieldModel = rightKeyFieldModel;
   }
 
-  @Bindable
+    @Bindable
+    public void setJoinTypeFieldModel(JoinFieldModel joinTypeKeyFieldModel) {
+        this.joinTypeFieldModel = joinTypeKeyFieldModel;
+    }
+
+    @Bindable
+    public JoinFieldModel getJoinTypeFieldModel() {
+        return this.joinTypeFieldModel;
+    }
+
+    @Bindable
   public String getName() {
-    String innerJoinLabel = ModelerMessagesHolder.getMessages().getString( "multitable.INNER_JOIN" );
+    String joinLabel = ModelerMessagesHolder.getMessages().getString( getJoinLabel());
     String leftTable = this.leftKeyFieldModel.getParentTable().getName();
+
     String rightTable = this.rightKeyFieldModel.getParentTable().getName();
     StringBuffer joinName = new StringBuffer();
     joinName.append( leftTable );
     joinName.append( "." );
     joinName.append( this.leftKeyFieldModel.getName() );
     joinName.append( " - " );
-    joinName.append( innerJoinLabel );
+    joinName.append( joinLabel );
     joinName.append( " - " );
     joinName.append( rightTable );
     joinName.append( "." );
     joinName.append( this.rightKeyFieldModel.getName() );
     return joinName.toString();
   }
+
+    private String getJoinLabel(){
+        String label = "multitable." + this.joinTypeFieldModel.getName();
+        return label;
+    }
 
   public boolean equals( JoinRelationshipModel join ) {
 
