@@ -28,7 +28,7 @@ public class JoinRelationshipModel extends XulEventSourceAdapter implements Seri
   private static final long serialVersionUID = -1365363591444333452L;
   private JoinFieldModel leftKeyFieldModel;
   private JoinFieldModel rightKeyFieldModel;
-  private JoinFieldModel joinTypeFieldModel;
+  private JoinTypeModel joinTypeModel;
 
   public JoinRelationshipModel() {
 
@@ -55,13 +55,13 @@ public class JoinRelationshipModel extends XulEventSourceAdapter implements Seri
   }
 
     @Bindable
-    public void setJoinTypeFieldModel(JoinFieldModel joinTypeKeyFieldModel) {
-        this.joinTypeFieldModel = joinTypeKeyFieldModel;
+    public void setJoinTypeModel(JoinTypeModel joinTypeModel) {
+        this.joinTypeModel = joinTypeModel;
     }
 
     @Bindable
-    public JoinFieldModel getJoinTypeFieldModel() {
-        return this.joinTypeFieldModel;
+    public JoinTypeModel getJoinTypeModel() {
+        return this.joinTypeModel;
     }
 
     @Bindable
@@ -84,7 +84,7 @@ public class JoinRelationshipModel extends XulEventSourceAdapter implements Seri
   }
 
     private String getJoinLabel(){
-        String label = "multitable." + this.joinTypeFieldModel.getName();
+        String label = "multitable." + this.joinTypeModel.getName();
         return label;
     }
 
