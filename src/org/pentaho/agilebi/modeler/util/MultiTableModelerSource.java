@@ -32,6 +32,7 @@ import org.pentaho.agilebi.modeler.ModelerPerspective;
 import org.pentaho.agilebi.modeler.ModelerWorkspace;
 import org.pentaho.agilebi.modeler.geo.GeoContext;
 import org.pentaho.agilebi.modeler.models.JoinRelationshipModel;
+import org.pentaho.agilebi.modeler.models.JoinTypeModel;
 import org.pentaho.agilebi.modeler.models.SchemaModel;
 import org.pentaho.agilebi.modeler.strategy.MultiTableAutoModelStrategy;
 import org.pentaho.agilebi.modeler.strategy.SimpleAutoModelStrategy;
@@ -44,6 +45,7 @@ import org.pentaho.metadata.model.LogicalModel;
 import org.pentaho.metadata.model.LogicalRelationship;
 import org.pentaho.metadata.model.LogicalTable;
 import org.pentaho.metadata.model.concept.types.LocalizedString;
+import org.pentaho.metadata.model.concept.types.JoinType;
 import org.pentaho.metadata.model.concept.types.RelationshipType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -280,7 +282,7 @@ public class MultiTableModelerSource implements ISpoonModelerSource {
       }
 
       LogicalRelationship logicalRelationship = new LogicalRelationship();
-      logicalRelationship.setRelationshipType( RelationshipType._1_1 );
+      logicalRelationship.setRelationshipType( convert( joinModel.getJoinTypeModel() ) );
       logicalRelationship.setFromTable( fromTable );
       logicalRelationship.setFromColumn( fromColumn );
       logicalRelationship.setToTable( toTable );
@@ -288,6 +290,16 @@ public class MultiTableModelerSource implements ISpoonModelerSource {
       logicalModel.addLogicalRelationship( logicalRelationship );
     }
   }
+
+  private RelationshipType convert( JoinTypeModel joinType ) throws IllegalStateException {
+    try{
+      return RelationshipType.valueOf ( joinType.getValue() );
+    } catch( Exception e ){
+     throw new IllegalStateException(
+       "Invalid Relationship type mapping : " + ( joinType != null ? joinType.getValue() : " null joinType " ) );
+    }
+  }
+
 
   @Override
   public String getDatabaseName() {

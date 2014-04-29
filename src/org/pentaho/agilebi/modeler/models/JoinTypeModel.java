@@ -25,9 +25,15 @@ import java.io.Serializable;
 public class JoinTypeModel extends XulEventSourceAdapter implements Serializable {
     
     private String name;
+    private String value;
 
     public JoinTypeModel() {
 
+    }
+
+    public JoinTypeModel( String name, String value ) {
+      this.name = name;
+      this.value = value;
     }
 
     @Bindable
@@ -38,5 +44,15 @@ public class JoinTypeModel extends XulEventSourceAdapter implements Serializable
     @Bindable
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Bindable
+    public String getValue() {
+      return value;
+    }
+
+    @Bindable
+    public void setValue( String value ) {
+      this.value = value;
     }
 }

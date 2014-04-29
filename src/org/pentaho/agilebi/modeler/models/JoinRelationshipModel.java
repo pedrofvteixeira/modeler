@@ -66,7 +66,7 @@ public class JoinRelationshipModel extends XulEventSourceAdapter implements Seri
 
     @Bindable
   public String getName() {
-    String joinLabel = ModelerMessagesHolder.getMessages().getString( getJoinLabel());
+    String joinLabel = this.joinTypeModel.getName() + " join";
     String leftTable = this.leftKeyFieldModel.getParentTable().getName();
 
     String rightTable = this.rightKeyFieldModel.getParentTable().getName();
@@ -75,18 +75,13 @@ public class JoinRelationshipModel extends XulEventSourceAdapter implements Seri
     joinName.append( "." );
     joinName.append( this.leftKeyFieldModel.getName() );
     joinName.append( " - " );
-    joinName.append( joinLabel );
+    joinName.append( joinLabel.toUpperCase() );
     joinName.append( " - " );
     joinName.append( rightTable );
     joinName.append( "." );
     joinName.append( this.rightKeyFieldModel.getName() );
     return joinName.toString();
   }
-
-    private String getJoinLabel(){
-        String label = "multitable." + this.joinTypeModel.getName();
-        return label;
-    }
 
   public boolean equals( JoinRelationshipModel join ) {
 
